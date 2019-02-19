@@ -1,2 +1,8 @@
 .ipynb_checkpoints/
 venv/
+
+# Latex
+*.aux
+*.log
+*.out
+*.pdf
