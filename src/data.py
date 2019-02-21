@@ -42,6 +42,12 @@ def preprocessData(data):
     data["pickup_latitude"] = data["pickup_latitude"].astype('float64')
     data["pickup_longitude"] = data["pickup_longitude"].astype('float64')
     
+    data["fare_amount"] = data["fare_amount"].astype('float64')
+    data["tip_amount"] = data["tip_amount"].astype('float64')
+    data["tolls_amount"] = data["tolls_amount"].astype('float64')
+    data["total_amount"] = data["total_amount"].astype('float64')
+    data["trip_distance"] = data["trip_distance"].astype('float64')
+    
     data.drop(data[
         (data.dropoff_latitude == 0) | 
         (data.dropoff_longitude == 0) | 
