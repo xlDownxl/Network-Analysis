@@ -35,4 +35,11 @@ def preprocessDataRow(row):
     return row
 
 def getPreprocessedData(limit):
-    return getData(limit).apply(preprocessDataRow, axis = 1)
+    data = getData(limit).apply(preprocessDataRow, axis = 1)
+
+    data["dropoff_latitude"] = data["dropoff_latitude"].astype('float64')
+    data["dropoff_longitude"] = data["dropoff_longitude"].astype('float64')
+    data["pickup_latitude"] = data["pickup_latitude"].astype('float64')
+    data["pickup_longitude"] = data["pickup_longitude"].astype('float64')
+
+    return data
