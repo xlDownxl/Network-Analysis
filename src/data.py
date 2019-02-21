@@ -34,12 +34,25 @@ def preprocessDataRow(row):
 
     return row
 
-def getPreprocessedData(limit):
-    data = getData(limit).apply(preprocessDataRow, axis = 1)
-
+def preprocessData(data):
+    data = data.apply(preprocessDataRow, axis = 1)
+    
     data["dropoff_latitude"] = data["dropoff_latitude"].astype('float64')
     data["dropoff_longitude"] = data["dropoff_longitude"].astype('float64')
     data["pickup_latitude"] = data["pickup_latitude"].astype('float64')
     data["pickup_longitude"] = data["pickup_longitude"].astype('float64')
+    
+    data.drop(data[
+        (data.dropoff_latitude == 0) | 
+        (data.dropoff_longitude == 0) | 
+        (data.pickup_latitude == 0) | 
+        (data.pickup_longitude == 0)
+    ].index, inplace=True)
+    
+    return data
+    
 
+def getPreprocessedData(limit):
+    data = getData(limit)
+    data = preprocessData(data)
     return data
