@@ -42,4 +42,15 @@ Abstract
 \section{Introduction}
 Introduction
 
+\section{Data}
+We used \emph{\href{https://data.cityofnewyork.us/view/ba8s-jw6u}{2015 Yellow Taxi Trip Data}}. We fetched them using \emph{\href{https://dev.socrata.com}{Socrata library}}.
+
+\subsection{Preprocessing}
+Provided data needed a little bit of preprocessing to fit our needs and also to get rid of corrupted rows and unneeded columns. \\
+Firstly, data fetched using Socrata library were missing information about data types or all columns had string data type, so we converted them to right data type. \\
+Then, we removed all rows with dropoff/pickup latitude outside of range \(\left[38, 43\right]\) and dropoff/pickup longitude outside of range \(\left[-76, -72\right]\). There were some rows with latitude/longitude $0$, probably because of gps turned off or not working. Also, there were some rows with latitude/longitude outside of New York, which we don't want to deal with. \\
+Then, we converted \emph{pickup\_datetime} and \emph{dropoff\_datetime} columns, which contain datetime timestamp string to python datetime object. For it, we used \emph{weekday()} method to get weekday and \emph{time().hour()} methods to get hour of the day. We add those as 4 new columns (pickup\_weekday, pickup\_hour, dropoff\_weekday, dropoff\_hour). \\
+Finally, we dropped unneeded columns.
+
+
 \end{document}
