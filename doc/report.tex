@@ -13,10 +13,6 @@
 \begin{document}
 
 \title{Analysis of New York Taxi Trip Network}
-
-\author{Heidi Neuhauser}
-\affiliation{\institution{University of Helsinki}}
-\email{heidi.neuhauser@helsinki.fi}
  
 \author{Theresa Follath}
 \affiliation{\institution{University of Helsinki}}
@@ -39,18 +35,42 @@ Abstract
 
 \maketitle
 
-\section{Introduction}
+\chapter{Introduction}
 Introduction
 
-\section{Data}
-We used \emph{\href{https://data.cityofnewyork.us/view/ba8s-jw6u}{2015 Yellow Taxi Trip Data}}. We fetched them using \emph{\href{https://dev.socrata.com}{Socrata library}}.
+\section{Dataset}
+This work is based on a taxtride-dataset which provided us with all mandatory information to conduct this research. Source for it is the homepage \emph{\href{https://data.cityofnewyork.us/view/ba8s-jw6u}{2015 Yellow Taxi Trip Data}}. The dataset is public available and contains about $146087462$ entries of taxirides. Information included into these entries are the important dropoff and pickup places in form of longitudes and latitudes, as well as measures like distance, fares and dropoff \& pickuptimes. 
+Apart from the sheer size of the chosen dataset, we found a lot of errors in mutliple columns which needed to be cut out during preprocessing.
+At the same time, a lot of columns needed to be deleted because they did not provide valuable information with regards to the research questioned which we are answering in this work.
 
-\subsection{Preprocessing}
+
+\section{Preprocessing}
+\label{preprocessing}
 Provided data needed a little bit of preprocessing to fit our needs and also to get rid of corrupted rows and unneeded columns. \\
 Firstly, data fetched using Socrata library were missing information about data types or all columns had string data type, so we converted them to right data type. \\
 Then, we removed all rows with dropoff/pickup latitude outside of range \(\left[38, 43\right]\) and dropoff/pickup longitude outside of range \(\left[-76, -72\right]\). There were some rows with latitude/longitude $0$, probably because of gps turned off or not working. Also, there were some rows with latitude/longitude outside of New York, which we don't want to deal with. \\
 Then, we converted \emph{pickup\_datetime} and \emph{dropoff\_datetime} columns, which contain datetime timestamp string to python datetime object. For it, we used \emph{weekday()} method to get weekday and \emph{time().hour()} methods to get hour of the day. We add those as 4 new columns (pickup\_weekday, pickup\_hour, dropoff\_weekday, dropoff\_hour). \\
 Finally, we dropped unneeded columns.
 
+Rounding
+
+\section{Network Structure}
+As described in \ref{preprocessing} we needed to make a decision on rounding the coordinates on a fixed number of decimals in order to be able to build a connected graph. Without this step even very close pickup and dropoff places would be seperate nodes and, thus, an almost not connected graph would be the result. Since the nodes are given by distinct pickup and dropoff places, the number of nodes converges. When using more and more data, the probability of this place already existing in the set of edges gets higher and higher. Finally the number of nodes converges against $ 235235$.
+
+In terms of edges we create an edge for every ride between two nodes existing in the dataset. In this work the amount of appearance of the same edge is not further considered due to simplicity. Based on the rounding we acquired self edges when the ride was between very close places which got rounded onto the same coordinates. *why we used undirected instead of directed*
+
+
+
+
+Write how many nodes, connected,not connected, number edges correlation coefficient, plot of network
+
+\section{Community Analysis}
+
+\section{Evaluation}
+boxplots  histograms
+
+
+\section{Conclusion \& Future Work}
+todo
 
 \end{document}
